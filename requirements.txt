@@ -1,4 +1,1 @@
-django>=4.0
-djangorestframework~=3.14
-markdown~=3.5
-django-filter~=23.5
+fastapi~=0.105.0
