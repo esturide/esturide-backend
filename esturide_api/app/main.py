@@ -1,7 +1,8 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 
 from esturide_api import models
 from esturide_api.config.database import engine
+from esturide_api.contexts.user.domain.errors import UserServiceValidationError
 from esturide_api.contexts.user.infraestructure.router.user_router import (
     router as V2_UserRouter,
 )
@@ -29,3 +30,8 @@ app.include_router(V2_AuthorizationRouter)
 @app.get("/")
 def read_root():
     return {"Hello": "World"}
+
+
+@app.exception_handler(UserServiceValidationError)
+def user_service_validation_exception_handler(request, exc: UserServiceValidationError):
+    raise HTTPException(status_code=400, detail=str(exc))
